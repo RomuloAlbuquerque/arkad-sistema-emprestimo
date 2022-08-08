@@ -8,6 +8,8 @@ class Emprestimo{
         this.cpf = cpf;
         this.extrato = new Extrato(valor, quantParcelas, cpf);
     }
+
+
 }
 
 export default Emprestimo;

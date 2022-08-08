@@ -18,6 +18,9 @@ class EmprestimoRepository{
         {bind: [emprestimo.cpf, emprestimo.totalPagar, emprestimo.quantParcelas, emprestimo.valorParcela, emprestimo.valorEmprestado, emprestimo.totalJuros, emprestimo.taxaJurosMensal], 
         type: QueryTypes.INSERT})
         await carteiraRepository.depositar(valor, cpf);
+        await configBanco.banco.query(
+            `insert into parcela(parcela_cpf, valor_parcela, data_emprestimo, data_vencimento, numero_parcela, quant_parcela) values($1, $2, $3, $4, $5, $6)`,
+            {bind: [emprestimo.parcelas.cpf, emprestimo.parcelas.valorEmprestado, emprestimo.dataEmprestimo, emprestimo.parcelas.dataVencimento, emprestimo.parcelas.numeroParcela, emprestimo.parcelas.quantParcelas], type: QueryTypes.INSERT})
         return emprestimo; 
     }
 
@@ -27,5 +30,4 @@ class EmprestimoRepository{
         return extratos;
     }
 }
-
 export default EmprestimoRepository;

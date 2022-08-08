@@ -1,3 +1,5 @@
+import Parcela from "./parcela.js";
+
 class Extrato{
     constructor(valor, quantParcelas, cpf){
         this.cpf = cpf;
@@ -8,9 +10,12 @@ class Extrato{
         this.totalJuros = 0;
         this.taxaJurosMensal = 10;
         this.calcular(valor, quantParcelas);
+        this.parcelas = this.gerarParcela(this.cpf, this.valorParcela, 1, this.quantParcelas);
     }
 
     calcular(valor, quantParcelas){
+        Number(valor);
+        Number(quantParcelas)
         const array = [quantParcelas];
         let valorxparcela = valor/quantParcelas;
         let totaljuros = 0;
@@ -29,7 +34,17 @@ class Extrato{
         this.totalPagar = totalpagar;
         this.valorParcela = valorparcela;
         this.totalJuros = totaljuros;
-        console.log(this.totalPagar, this.totalJuros, this.valorParcela)
+    }
+
+    gerarParcela(cpf, valorParcela, dataEmprestimo, quantParcelas){
+        const parcelas = [Number(quantParcelas)];
+        let dataVencimento = dataEmprestimo;
+        for(let i=1; i<quantParcelas; i++){
+            dataVencimento += 30;
+            const numeroParcela=i;
+            parcelas[i] = new Parcela(cpf, Number(valorParcela), dataEmprestimo, dataVencimento, numeroParcela, quantParcelas);
+        }
+        return parcelas;
     }
 }
 
